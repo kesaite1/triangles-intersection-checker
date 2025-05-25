@@ -22,6 +22,13 @@ def statmenas_vektorius(U, V):
            U[2] * V[0] - U[0] * V[2]
            ]
 
+def d_reiksme(normale, A):
+    return normale[0] * A[0] + normale[1] * A[1] + normale[2] * A[2]
+
+def nulinis_vektorius(v):
+    return abs(v[0]) < 1e-6 and abs(v[1]) < 1e-6 and abs(v[2]) < 1e-6
+
+
 virsunes, plokstumos = failo_skaitymas("Coordinates.off")
 
 A = virsunes[plokstumos[0][0]]
@@ -34,10 +41,25 @@ M = virsunes[plokstumos[1][2]]
 
 AB = vektoriu_atimtis(A, B)
 AC = vektoriu_atimtis(A, C)
-normale = statmenas_vektorius(AB, AC)
+normale1 = statmenas_vektorius(AB, AC)
 
 KL = vektoriu_atimtis(K, L)
 KM = vektoriu_atimtis(K, M)
-normale = statmenas_vektorius(KL, KM)
+normale2 = statmenas_vektorius(KL, KM)
+
+D1 = -d_reiksme(normale1, A)
+D2 = -d_reiksme(normale2, K)
+
+statmenos_normales = statmenas_vektorius(normale1, normale2)
+
+if nulinis_vektorius(statmenos_normales):
+    print("Trikampiu plokstumos yra lygiagrecios")
+else:
+    print("Trikampiu plokstumos susikerta linijoje")
+
+
+
+
+
 
 #print(KL, AB, AC)
